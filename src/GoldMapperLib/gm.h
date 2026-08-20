@@ -5,6 +5,7 @@
 #define GM_DEVICE_KEY 0
 #define GM_DEVICE_PAD 1
 #define GM_DEVICE_MOUSE 2
+#define GM_DEVICE_DINPUT 3
 #define GM_PAD_IDX_ANY (-1)
 #define GM_SYNTH_SCANCODE 0x42
 typedef struct {
@@ -27,4 +28,5 @@ int gm_resolve_input(const char *name, int *device, int *code, int *pad_idx);
 int gm_resolve_output(const char *name, int *device, int *code, int *pad_idx);
 void gm_hook_init(void);
 void gm_hook_shutdown(void);
+void dbg_log(const char *fmt, ...);
 #endif

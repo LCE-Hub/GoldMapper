@@ -21,7 +21,7 @@ target_include_directories(GoldMapperLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/cJSON
 )
 
-target_link_libraries(GoldMapperLib PRIVATE minhook xinput9_1_0 user32)
+target_link_libraries(GoldMapperLib PRIVATE minhook xinput9_1_0 user32 ole32)
 add_executable(GoldMapperLauncher
     src/GoldMapperLauncher/main.c
 )

@@ -13,7 +13,7 @@ GoldMapper consists of two binaries:
 | Binary | Role |
 |--------|------|
 | **`GoldMapperLauncher.exe`** | Creates the target process suspended, injects the DLL, then resumes the game |
-| **`GoldMapperLib.dll`** | Hooks into the game's input system (WndProc + XInput) and applies remappings |
+| **`GoldMapperLib.dll`** | Hooks into the game's input system (WndProc + XInput + SDL2) and applies remappings |
 
 ---
 
@@ -40,7 +40,8 @@ Use the Emerald Launcher input configurator, or create a JSON file with your des
   "mappings": [
     { "from": "KEY_Z", "to": "KEY_W" },
     { "from": "PAD_A", "to": "KEY_F11" },
-    { "from": "KEY_LEFT_CTRL", "to": "PAD_RB" }
+    { "from": "KEY_LEFT_CTRL", "to": "PAD_RB" },
+    { "from": "DINPUT_0", "to": "PAD_A" }
   ]
 }
 ```
@@ -61,6 +62,12 @@ For the `to` side, prefix with a pad number to target a specific controller: `PA
 
 `MOUSE_LEFT`, `MOUSE_RIGHT`, `MOUSE_MIDDLE`
 
+**DirectInput** (`DINPUT_` prefix, from only):
+
+`DINPUT_0` through `DINPUT_127`, maps to button/axis indices from the physical gamepad. Uses SDL2's GameController API under the hood to read any connected controller (Xbox, PlayStation, Switch Pro, etc.). SDL handles type detection, button mapping, calibration, and deadzones automatically. Only works as an input source (the `from` side).
+
+SDL2.dll is loaded at runtime from `GoldMapperLib.dll`'s own directory (which is `src-tauri/resources/` on Emerald), so it does not need to be placed in the game folder.
+
 ### Cross-Device Mapping
 
 You can map between any input devices:
@@ -70,6 +77,9 @@ You can map between any input devices:
 | `KEY_*` | `KEY_*` | Remaps keyboard keys |
 | `PAD_*` | `PAD_*` | Remaps gamepad buttons |
 | `MOUSE_*` | `MOUSE_*` | Remaps mouse buttons |
+| `DINPUT_*` | `KEY_*` | DirectInput button triggers a keyboard key |
+| `DINPUT_*` | `PAD_*` | DirectInput button triggers a gamepad button (XInput) |
+| `DINPUT_*` | `MOUSE_*` | DirectInput button triggers a mouse button |
 | `PAD_*` | `KEY_*` | Gamepad button triggers a keyboard key |
 | `KEY_*` | `PAD_*` | Keyboard key triggers a gamepad button |
 | `MOUSE_*` | `PAD_*` | Mouse button triggers a gamepad button |

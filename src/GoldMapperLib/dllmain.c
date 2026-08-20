@@ -18,21 +18,14 @@ static void get_dll_dir(char *out, int sz)
     }
 }
 
-static DWORD WINAPI deferred_init(LPVOID param)
-{
-    (void)param;
-    gm_hook_init();
-    return 0;
-}
-
 static DWORD WINAPI auto_init_thread(LPVOID param)
 {
     char config_path[MAX_PATH];
     char *buf;
     FILE *f;
     long size;
-    HANDLE hThread;
     (void)param;
+    gm_hook_init();
     Sleep(2000);
     get_dll_dir(config_path, MAX_PATH);
     strcat(config_path, "\\");
@@ -59,8 +52,15 @@ static DWORD WINAPI auto_init_thread(LPVOID param)
     gm_parse_config(buf, (int)size, &g_config);
     free(buf);
     DeleteFileA(config_path);
-    hThread = CreateThread(NULL, 0, deferred_init, NULL, 0, NULL);
-    if (hThread) CloseHandle(hThread);
+    dbg_log("[INIT] config loaded: %d mappings\n", g_config.count);
+    {
+        int i;
+        for (i = 0; i < g_config.count; i++) {
+            GmMapping *m = &g_config.mappings[i];
+            dbg_log("[INIT]   mapping[%d]: from_dev=%d from_code=0x%X -> to_dev=%d to_code=0x%X\n",
+                i, m->from_device, m->from_code, m->to_device, m->to_code);
+        }
+    }
     return 0;
 }
 
@@ -81,7 +81,6 @@ __declspec(dllexport) void __cdecl GoldMapper_Init(const char *config_path)
     FILE *f;
     long size;
     char *buf;
-    HANDLE hThread;
     if (!config_path) return;
     f = fopen(config_path, "rb");
     if (!f) return;
@@ -104,9 +103,7 @@ __declspec(dllexport) void __cdecl GoldMapper_Init(const char *config_path)
     fclose(f);
     gm_parse_config(buf, (int)size, &g_config);
     free(buf);
-    DeleteFileA(config_path);
-    hThread = CreateThread(NULL, 0, deferred_init, NULL, 0, NULL);
-    if (hThread) CloseHandle(hThread);
+    DeleteFileA(config_path); //neo: dont be confused, `config_path` here is the tmp config not the config itself
 }
 
 __declspec(dllexport) void __cdecl GoldMapper_Shutdown(void)

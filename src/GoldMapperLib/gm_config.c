@@ -94,6 +94,17 @@ static const NameEntry s_mouse_names[] = {
     { NULL, 0 }
 };
 
+static int parse_dinput_name(const char *name, int *code)
+{
+    int n = 0;
+    if (name[0] != 'D' || name[1] != 'I' || name[2] != 'N' || name[3] != 'P' || name[4] != 'U' || name[5] != 'T' || name[6] != '_') return -1;
+    if (name[7] < '0' || name[7] > '9') return -1;
+    n = atoi(name + 7);
+    if (n < 0 || n > 127) return -1;
+    *code = n;
+    return 0;
+}
+
 static int lookup_name(const char *name, const NameEntry *table)
 {
     int i;
@@ -158,6 +169,13 @@ int gm_resolve_input(const char *name, int *device, int *code, int *pad_idx)
         val = lookup_name(name, s_mouse_names);
         if (val < 0) return -1;
         *device = GM_DEVICE_MOUSE;
+        *code = val;
+        return 0;
+    }
+
+    if (strncmp(name, "DINPUT_", 7) == 0) {
+        if (parse_dinput_name(name, &val) < 0) return -1;
+        *device = GM_DEVICE_DINPUT;
         *code = val;
         return 0;
     }
