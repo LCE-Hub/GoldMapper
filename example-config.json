@@ -1,0 +1,32 @@
+{
+  "mappings": [
+    { "from": "KEY_W",      "to": "PAD_DPAD_UP" },
+    { "from": "KEY_S",      "to": "PAD_DPAD_DOWN" },
+    { "from": "KEY_A",      "to": "PAD_DPAD_LEFT" },
+    { "from": "KEY_D",      "to": "PAD_DPAD_RIGHT" },
+    { "from": "KEY_J",      "to": "PAD_A" },
+    { "from": "KEY_K",      "to": "PAD_B" },
+    { "from": "KEY_U",      "to": "PAD_X" },
+    { "from": "KEY_I",      "to": "PAD_Y" },
+    { "from": "KEY_Q",      "to": "PAD_LB" },
+    { "from": "KEY_E",      "to": "PAD_RB" },
+    { "from": "KEY_Z",      "to": "PAD_LT" },
+    { "from": "KEY_X",      "to": "PAD_RT" },
+    { "from": "KEY_RETURN", "to": "PAD_START" },
+    { "from": "KEY_TAB",    "to": "PAD_BACK" },
+    { "from": "PAD_DPAD_UP",    "to": "PAD_DPAD_UP" },
+    { "from": "PAD_DPAD_DOWN",  "to": "PAD_DPAD_DOWN" },
+    { "from": "PAD_DPAD_LEFT",  "to": "PAD_DPAD_LEFT" },
+    { "from": "PAD_DPAD_RIGHT", "to": "PAD_DPAD_RIGHT" },
+    { "from": "PAD_A",          "to": "PAD_A" },
+    { "from": "PAD_B",          "to": "PAD_B" },
+    { "from": "PAD_X",          "to": "PAD_X" },
+    { "from": "PAD_Y",          "to": "PAD_Y" },
+    { "from": "PAD_LB",         "to": "PAD_LB" },
+    { "from": "PAD_RB",         "to": "PAD_RB" },
+    { "from": "PAD_LT",         "to": "PAD_LT" },
+    { "from": "PAD_RT",         "to": "PAD_RT" },
+    { "from": "PAD_START",      "to": "PAD_START" },
+    { "from": "PAD_BACK",       "to": "PAD_BACK" }
+  ]
+}
